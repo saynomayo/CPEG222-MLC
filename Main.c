@@ -1,6 +1,6 @@
 /*==============================================================================
  * Template - Project 1
- * Author: Austin Conway and Khai McCaskill
+ * Author: Mekhai Waples & Raphael Daluz
  * CPEG222
  * Fall 2024
  * University of Delaware
