@@ -24,6 +24,8 @@
 #include "config.h" // Basys MX3 configuration header
 #include "lcd.h"    // NOTE: utils.c and utils.h must also be in your project 
                     //to use lcd.c
+#include "led.h"
+#include "btn.h"
 /* ----------------------- Custom types ------------------------------------- */
 enum mode{MODE1, MODE2, MODE3, MODE4};
 /* ----------------------- Prototypes ----------------------------------------*/
