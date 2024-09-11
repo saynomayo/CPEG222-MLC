@@ -122,9 +122,9 @@ void initialize_output_states()
     
     /* Display "Group #1" at line 0 position 0, using spaces to center it and
      * clear any previously displayed letters*/
-    LCD_WriteStringAtPos("    Group #    ", 0, 0);
+    LCD_WriteStringAtPos("Group #8", 0, 5);
     
-    LCD_WriteStringAtPos("     Mode 1     ", 1, 0); // line 1, position 0
+    LCD_WriteStringAtPos("Mode 1", 1, 5); // line 1, position 5
     
 }
 /* The below function only handles BtnR presses. Think about how it could be
@@ -154,7 +154,7 @@ void delay_ms(int milliseconds)
 
 void logic_mode_one(){
     
-    LCD_WriteStringAtPos("Group #", 0, 5); // line 0, position 5
+    LCD_WriteStringAtPos("Group #8", 0, 5); // line 0, position 5
     LCD_WriteStringAtPos("Mode 1", 1, 5); // line 1, position 5
     
     // Turn all the LEDs on
@@ -165,7 +165,7 @@ void logic_mode_one(){
 void logic_mode_two(){
 
 
-    LCD_WriteStringAtPos("Group #", 0, 5); // line 0, position 5
+    LCD_WriteStringAtPos("Group #8", 0, 5); // line 0, position 5
     LCD_WriteStringAtPos("Mode 2", 1, 5); // line 1, position 5
     
     // Turn on the LEDs alternating 1 and 0
@@ -175,7 +175,7 @@ void logic_mode_two(){
     return;
 }
 void logic_mode_three(){
-    LCD_WriteStringAtPos("Group #", 0, 5); // line 0, position 5
+    LCD_WriteStringAtPos("Group #8", 0, 5); // line 0, position 5
     LCD_WriteStringAtPos("Mode 3", 1, 5); // line 1, position 5
     
     // Turn all the LEDs off
@@ -184,7 +184,7 @@ void logic_mode_three(){
 }
 void logic_mode_four(){
     
-    LCD_WriteStringAtPos("Group #", 0, 5); // line 0, position 5
+    LCD_WriteStringAtPos("Group #8", 0, 5); // line 0, position 5
     LCD_WriteStringAtPos("Mode 4", 1, 5); //line 1, position 5
     
     // Turn on the LEDs alternating 0 and 1
