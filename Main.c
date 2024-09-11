@@ -55,14 +55,13 @@ connects.
 /* -------------------- Global Variable Declarations ------------------------ */
 char buttonsLocked = FALSE;
 char pressedUnlockedBtnR = FALSE;
+enum mode current_mode = MODE1;
 /* ----------------------------- Main --------------------------------------- */
 int main(void)
 {
     /*-------------------- Port and State Initialization ---------------------*/
     initialize_ports();
     initialize_output_states();
-    
-    enum mode current_mode = MODE1;
 
 
     while (TRUE)
@@ -122,7 +121,7 @@ void initialize_output_states()
     
     /* Display "Group #1" at line 0 position 0, using spaces to center it and
      * clear any previously displayed letters*/
-    LCD_WriteStringAtPos("Group #8", 0, 5);
+    LCD_WriteStringAtPos("Group #8", 0, 4);
     
     LCD_WriteStringAtPos("Mode 1", 1, 5); // line 1, position 5
     
@@ -154,7 +153,7 @@ void delay_ms(int milliseconds)
 
 void logic_mode_one(){
     
-    LCD_WriteStringAtPos("Group #8", 0, 5); // line 0, position 5
+    LCD_WriteStringAtPos("Group #8", 0, 4); // line 0, position 4
     LCD_WriteStringAtPos("Mode 1", 1, 5); // line 1, position 5
     
     // Turn all the LEDs on
@@ -164,18 +163,20 @@ void logic_mode_one(){
 }
 void logic_mode_two(){
 
-
-    LCD_WriteStringAtPos("Group #8", 0, 5); // line 0, position 5
+    LCD_WriteStringAtPos("Group #8", 0, 4); // line 0, position 4
     LCD_WriteStringAtPos("Mode 2", 1, 5); // line 1, position 5
     
-    // Turn on the LEDs alternating 1 and 0
-    LATA &= 0xFF00;
-    LATA |= 0x00AA; 
-   
+    // Turn off LEDS from LD7 to LD0
+    for (int i=7;i>-1;i--) {
+        LED_SetValue(i, 0);
+        delay_ms(75);
+    }
+    //Set mode to MODE3 when LEDs done.
+    current_mode = MODE3;
     return;
 }
 void logic_mode_three(){
-    LCD_WriteStringAtPos("Group #8", 0, 5); // line 0, position 5
+    LCD_WriteStringAtPos("Group #8", 0, 4); // line 0, position 4
     LCD_WriteStringAtPos("Mode 3", 1, 5); // line 1, position 5
     
     // Turn all the LEDs off
@@ -184,13 +185,16 @@ void logic_mode_three(){
 }
 void logic_mode_four(){
     
-    LCD_WriteStringAtPos("Group #8", 0, 5); // line 0, position 5
+    LCD_WriteStringAtPos("Group #8", 0, 4); // line 0, position 4
     LCD_WriteStringAtPos("Mode 4", 1, 5); //line 1, position 5
     
-    // Turn on the LEDs alternating 0 and 1
-    LATA &= 0xFF00;
-    LATA |= 0x0055; 
-   
+    // Turn on the LEDs from right to left
+    for (int i=-1;i<7;i++) {
+        LED_SetValue(i, 1);
+        delay_ms(75);
+    }
+    // Set mode back to MODE1
+    current_mode = MODE1;
     return;
 }
                 
