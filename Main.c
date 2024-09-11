@@ -122,7 +122,7 @@ void initialize_output_states()
     
     /* Display "Group #1" at line 0 position 0, using spaces to center it and
      * clear any previously displayed letters*/
-    LCD_WriteStringAtPos("    Group #1    ", 0, 0);
+    LCD_WriteStringAtPos("    Group #    ", 0, 0);
     
     LCD_WriteStringAtPos("     Mode 1     ", 1, 0); // line 1, position 0
     
@@ -154,8 +154,8 @@ void delay_ms(int milliseconds)
 
 void logic_mode_one(){
     
-    LCD_WriteStringAtPos("    Template    ", 0, 0); // line 0, position 0
-    LCD_WriteStringAtPos("     Mode 1     ", 1, 0); // line 1, position 0
+    LCD_WriteStringAtPos("Group #", 0, 5); // line 0, position 5
+    LCD_WriteStringAtPos("Mode 1", 1, 5); // line 1, position 5
     
     // Turn all the LEDs on
     LATA |= 0x00FF;
@@ -165,7 +165,8 @@ void logic_mode_one(){
 void logic_mode_two(){
 
 
-    LCD_WriteStringAtPos("    Template    ", 0, 0); // line 0, position 0
+    LCD_WriteStringAtPos("Group #", 0, 5); // line 0, position 5
+    LCD_WriteStringAtPos("Mode 2", 1, 5); // line 1, position 5
     
     // Turn on the LEDs alternating 1 and 0
     LATA &= 0xFF00;
@@ -174,7 +175,8 @@ void logic_mode_two(){
     return;
 }
 void logic_mode_three(){
-    LCD_WriteStringAtPos("    Template    ", 0, 0); // line 0, position 0
+    LCD_WriteStringAtPos("Group #", 0, 5); // line 0, position 5
+    LCD_WriteStringAtPos("Mode 3", 1, 5); // line 1, position 5
     
     // Turn all the LEDs off
     LATA &= 0xFF00;
@@ -182,7 +184,8 @@ void logic_mode_three(){
 }
 void logic_mode_four(){
     
-    LCD_WriteStringAtPos("    Template    ", 0, 0); // line 0, position 0
+    LCD_WriteStringAtPos("Group #", 0, 5); // line 0, position 5
+    LCD_WriteStringAtPos("Mode 4", 1, 5); //line 1, position 5
     
     // Turn on the LEDs alternating 0 and 1
     LATA &= 0xFF00;
