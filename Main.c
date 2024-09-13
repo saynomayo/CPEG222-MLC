@@ -168,7 +168,7 @@ void logic_mode_two(){
     
     // Turn off LEDS from LD7 to LD0
     for (int i=7;i>-1;i--) {
-        LED_SetValue(i, 0);
+        LATA >>= 1;
         delay_ms(75);
     }
     //Set mode to MODE3 when LEDs done.
@@ -190,7 +190,7 @@ void logic_mode_four(){
     
     // Turn on the LEDs from right to left
     for (int i=-1;i<7;i++) {
-        LED_SetValue(i, 1);
+        LATA = LATA | (1<<i); 
         delay_ms(75);
     }
     // Set mode back to MODE1
@@ -212,7 +212,3 @@ void logic_button_presses(enum mode *modePtr){
         *modePtr = MODE1;
     }
 }
-
-
-
-
