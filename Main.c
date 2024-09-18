@@ -1,5 +1,5 @@
 /*==============================================================================
- * Template - Project 1
+ * Project 1 - Marquee Light Controller
  * Author: Mekhai Waples & Raphael Daluz
  * CPEG222
  * Fall 2024
@@ -62,6 +62,7 @@ char switchesLocked = FALSE;
 char toggledUnlockedSW6 = FALSE;
 char toggledUnlockedSW7 = FALSE;
 enum mode current_mode = MODE1;
+int LEDSPEED = 1;
 /* ----------------------------- Main --------------------------------------- */
 int main(void)
 {
@@ -166,7 +167,7 @@ void handle_switch_toggle() {
       toggledUnlockedSW7 = TRUE;
    }
    else if (!SWITCH_7 && switchesLocked) {
-       delay_ms(INPUT_DEBOUNCE_DELAY_MS)
+       delay_ms(INPUT_DEBOUNCE_DELAY_MS);
        switchesLocked = FALSE;
    }
    if (SWITCH_6 && !switchesLocked) {
@@ -175,7 +176,7 @@ void handle_switch_toggle() {
       toggledUnlockedSW7 = TRUE;
    }
    else if (!SWITCH_6 && switchesLocked) {
-       delay_ms(INPUT_DEBOUNCE_DELAY_MS)
+       delay_ms(INPUT_DEBOUNCE_DELAY_MS);
        switchesLocked = FALSE;       
    }
 }
@@ -204,8 +205,8 @@ void logic_mode_two(){
     
     // Turn off LEDS from LD7 to LD0
     for (int i=7;i>-1;i--) {
-        LATA >>= 1;
-        delay_ms(75);
+        LATA >>= LEDSPEED;
+        delay_ms(100);
     }
     //Set mode to MODE3 when LEDs done.
     current_mode = MODE3;
@@ -224,10 +225,10 @@ void logic_mode_four(){
     LCD_WriteStringAtPos("Group #8", 0, 4); // line 0, position 4
     LCD_WriteStringAtPos("Mode 4", 1, 5); //line 1, position 5
     
-    // Turn on the LEDs from right to left
-    for (int i=-1;i<7;i++) {
+    // Turn on the LEDs from left to right
+    for (int i=7;i>-1;i--) {
         LATA = LATA | (1<<i); 
-        delay_ms(75);
+        delay_ms(100);
     }
     // Set mode back to MODE1
     current_mode = MODE1;
