@@ -160,6 +160,7 @@ void handle_button_presses()
 void handle_switch_toggle() {
    toggledUnlockedSW6 = FALSE;
    toggledUnlockedSW7 = FALSE;
+   //Handle SW7
    if (SWITCH_7 && !switchesLocked) {
       delay_ms(INPUT_DEBOUNCE_DELAY_MS); // debounce
       switchesLocked = TRUE;
@@ -169,10 +170,12 @@ void handle_switch_toggle() {
        delay_ms(INPUT_DEBOUNCE_DELAY_MS);
        switchesLocked = FALSE;
    }
+   
+   //Handle SW6
    if (SWITCH_6 && !switchesLocked) {
       delay_ms(INPUT_DEBOUNCE_DELAY_MS); // debounce
       switchesLocked = TRUE;
-      toggledUnlockedSW7 = TRUE;
+      toggledUnlockedSW6 = TRUE;
    }
    else if (!SWITCH_6 && switchesLocked) {
        delay_ms(INPUT_DEBOUNCE_DELAY_MS);
@@ -202,35 +205,30 @@ void logic_mode_two(){
     LCD_WriteStringAtPos("Group #8", 0, 4); // line 0, position 4
     LCD_WriteStringAtPos("Mode 2", 1, 5); // line 1, position 5
     
-    if (SWITCH_7) {
+    if (toggledUnlockedSW7 && toggledUnlockedSW6) {
         //turn off LEDs from L-R
-        if (SWITCH_6) {
-            for (int w=4;w>-1;w--) {
-                LATA >>= 2; //2 LEDs at a time
-                delay_ms(100);
-            }
-        }
-        else {
-            for (int x=8;x>-1;x--) {
-                LATA >>= 1; //1 LED at a time
-                delay_ms(100);
-            }
+        for (int w=4;w>-1;w--) {
+            LATA >>= 2; //2 LEDs at a time
+            delay_ms(100);
         }
     }
-    //SW7 off
-    else {
+    if (toggledUnlockedSW7 && !toggledUnlockedSW6) {
+        for (int x=8;x>-1;x--) {
+            LATA >>= 1; //1 LED at a time
+            delay_ms(100);
+        }
+    }
+    if (!toggledUnlockedSW7 && toggledUnlockedSW6) {
         //turn off LEDs R-L
-        if (SWITCH_6) {
-            for (int y=4;y>-1;y--) {
-                LATA <<= 2; //2 LEDs at a time
-                delay_ms(100);
+        for (int y=4;y>-1;y--) {
+            LATA <<= 2; //2 LEDs at a time
+            delay_ms(100);
             }
         }
-        else {
-            for (int z=8;z>-1;z--) {
-                LATA <<= 1; //1 LED at a time
-                delay_ms(100);
-            }
+    if (!toggledUnlockedSW7 && !toggledUnlockedSW6) {
+        for (int z=8;z>-1;z--) {
+            LATA <<= 1; //1 LED at a time
+            delay_ms(100);
         }
     }
     //Set mode to MODE3 when LEDs done.
