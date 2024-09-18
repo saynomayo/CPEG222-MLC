@@ -94,7 +94,6 @@ void initialize_ports()
 {
     // Required to use Pin RA0 (connected to LED 0) as IO
     DDPCONbits.JTAGEN = 0; 
-    
     /* 
     The following line sets the tristate of Port A bits 0-7 to 0. The LEDs are 
     connected to those pins. When the tristate of a pin is set low, the pin is 
@@ -103,10 +102,18 @@ void initialize_ports()
     their current state. 
     */
     TRISA &= 0xFF00;
-    
+
     // Configure BTNR
     TRISBbits.TRISB8 = 1; // RB8 (BTNR) configured as input
     ANSELBbits.ANSB8 = 0; // RB8 (BTNR) disabled analog
+    
+    //Configure SW6
+    TRISBbits.TRISB10 = 1;
+    ANSELBbits.ANSB10 = 0;
+    
+    //Configure SW7
+    TRISBbits.TRISB9 = 1;
+    ANSELBbits.ANSB9 = 0;
     
     LCD_Init(); // A library function provided by Digilent
 }
