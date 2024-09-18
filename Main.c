@@ -32,6 +32,7 @@ enum mode{MODE1, MODE2, MODE3, MODE4};
 void initialize_ports();
 void initialize_output_states();
 void handle_button_presses();
+void handle_switch_toggle();
 void delay_ms(int milliseconds);
 void logic_mode_one();
 void logic_mode_two();
@@ -50,11 +51,16 @@ connects.
  set tristate values of Port F pins. We will see LAT and TRIS later. */
 #define TRUE 1
 #define FALSE 0
-#define BUTTON_DEBOUNCE_DELAY_MS 20
+#define INPUT_DEBOUNCE_DELAY_MS 20
 #define BUTTON_RIGHT PORTBbits.RB8
+#define SWITCH_7 PORTBbits.RB9
+#define SWITCH_6 PORTBbits.RB10
 /* -------------------- Global Variable Declarations ------------------------ */
 char buttonsLocked = FALSE;
 char pressedUnlockedBtnR = FALSE;
+char switchesLocked = FALSE;
+char toggledUnlockedSW6 = FALSE;
+char toggledUnlockedSW7 = FALSE;
 enum mode current_mode = MODE1;
 /* ----------------------------- Main --------------------------------------- */
 int main(void)
@@ -68,6 +74,7 @@ int main(void)
     {
         /*-------------------- Main logic and actions start ------------------*/
         handle_button_presses();
+        handle_switch_toggle();
         if (pressedUnlockedBtnR) // Actions when BTNR is pressed
         {
             logic_button_presses(&current_mode);
@@ -140,15 +147,37 @@ void handle_button_presses()
     pressedUnlockedBtnR = FALSE;
     if (BUTTON_RIGHT && !buttonsLocked)
     {
-        delay_ms(BUTTON_DEBOUNCE_DELAY_MS); // debounce
+        delay_ms(INPUT_DEBOUNCE_DELAY_MS); // debounce
         buttonsLocked = TRUE;
         pressedUnlockedBtnR = TRUE;
     }
     else if (!BUTTON_RIGHT && buttonsLocked)
     {
-        delay_ms(BUTTON_DEBOUNCE_DELAY_MS); // debounce
+        delay_ms(INPUT_DEBOUNCE_DELAY_MS); // debounce
         buttonsLocked = FALSE;
     }
+}
+void handle_switch_toggle() {
+   toggledUnlockedSW6 = FALSE;
+   toggledUnlockedSW7 = FALSE;
+   if (SWITCH_7 && !switchesLocked) {
+      delay_ms(INPUT_DEBOUNCE_DELAY_MS); // debounce
+      switchesLocked = TRUE;
+      toggledUnlockedSW7 = TRUE;
+   }
+   else if (!SWITCH_7 && switchesLocked) {
+       delay_ms(INPUT_DEBOUNCE_DELAY_MS)
+       switchesLocked = FALSE;
+   }
+   if (SWITCH_6 && !switchesLocked) {
+      delay_ms(INPUT_DEBOUNCE_DELAY_MS); // debounce
+      switchesLocked = TRUE;
+      toggledUnlockedSW7 = TRUE;
+   }
+   else if (!SWITCH_6 && switchesLocked) {
+       delay_ms(INPUT_DEBOUNCE_DELAY_MS)
+       switchesLocked = FALSE;       
+   }
 }
 void delay_ms(int milliseconds)
 {
