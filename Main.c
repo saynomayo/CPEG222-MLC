@@ -62,7 +62,6 @@ char switchesLocked = FALSE;
 char toggledUnlockedSW6 = FALSE;
 char toggledUnlockedSW7 = FALSE;
 enum mode current_mode = MODE1;
-int LEDSPEED = 1;
 /* ----------------------------- Main --------------------------------------- */
 int main(void)
 {
@@ -203,10 +202,36 @@ void logic_mode_two(){
     LCD_WriteStringAtPos("Group #8", 0, 4); // line 0, position 4
     LCD_WriteStringAtPos("Mode 2", 1, 5); // line 1, position 5
     
-    // Turn off LEDS from LD7 to LD0
-    for (int i=7;i>-1;i--) {
-        LATA >>= LEDSPEED;
-        delay_ms(100);
+    if (SWITCH_7) {
+        //turn off LEDs from L-R
+        if (SWITCH_6) {
+            for (int w=4;w>-1;w--) {
+                LATA >>= 2; //2 LEDs at a time
+                delay_ms(100);
+            }
+        }
+        else {
+            for (int x=8;x>-1;x--) {
+                LATA >>= 1; //1 LED at a time
+                delay_ms(100);
+            }
+        }
+    }
+    //SW7 off
+    else {
+        //turn off LEDs R-L
+        if (SWITCH_6) {
+            for (int y=4;y>-1;y--) {
+                LATA <<= 2; //2 LEDs at a time
+                delay_ms(100);
+            }
+        }
+        else {
+            for (int z=8;z>-1;z--) {
+                LATA <<= 1; //1 LED at a time
+                delay_ms(100);
+            }
+        }
     }
     //Set mode to MODE3 when LEDs done.
     current_mode = MODE3;
@@ -221,15 +246,16 @@ void logic_mode_three(){
     return;
 }
 void logic_mode_four(){
-    
+
     LCD_WriteStringAtPos("Group #8", 0, 4); // line 0, position 4
     LCD_WriteStringAtPos("Mode 4", 1, 5); //line 1, position 5
     
-    // Turn on the LEDs from left to right
-    for (int i=7;i>-1;i--) {
-        LATA = LATA | (1<<i); 
+    // Turn on LEDS from right to left
+    for (int s=-1;s<7;s++){
+        LATA = LATA | (1<<s);
         delay_ms(100);
     }
+    // Turn on the LEDs from left to right
     // Set mode back to MODE1
     current_mode = MODE1;
     return;
