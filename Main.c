@@ -59,8 +59,8 @@ connects.
 char buttonsLocked = FALSE;
 char pressedUnlockedBtnR = FALSE;
 char switchesLocked = FALSE;
-char toggledUnlockedSW6 = FALSE;
-char toggledUnlockedSW7 = FALSE;
+//char toggledUnlockedSW6 = FALSE;
+//char toggledUnlockedSW7 = FALSE;
 enum mode current_mode = MODE1;
 /* ----------------------------- Main --------------------------------------- */
 int main(void)
@@ -74,7 +74,6 @@ int main(void)
     {
         /*-------------------- Main logic and actions start ------------------*/
         handle_button_presses();
-        handle_switch_toggle();
         if (pressedUnlockedBtnR) // Actions when BTNR is pressed
         {
             logic_button_presses(&current_mode);
@@ -205,27 +204,27 @@ void logic_mode_two(){
     LCD_WriteStringAtPos("Group #8", 0, 4); // line 0, position 4
     LCD_WriteStringAtPos("Mode 2", 1, 5); // line 1, position 5
     
-    if (toggledUnlockedSW7 && toggledUnlockedSW6) {
+    if (SWITCH_7 == 1 && SWITCH_6 == 1) {
         //turn off LEDs from L-R
         for (int w=4;w>-1;w--) {
             LATA >>= 2; //2 LEDs at a time
             delay_ms(100);
         }
     }
-    if (toggledUnlockedSW7 && !toggledUnlockedSW6) {
+    if (SWITCH_7 == 1 && SWITCH_6 == 0) {
         for (int x=8;x>-1;x--) {
             LATA >>= 1; //1 LED at a time
             delay_ms(100);
         }
     }
-    if (!toggledUnlockedSW7 && toggledUnlockedSW6) {
+    if (SWITCH_7 == 0 && SWITCH_6 == 1) {
         //turn off LEDs R-L
         for (int y=4;y>-1;y--) {
             LATA <<= 2; //2 LEDs at a time
             delay_ms(100);
             }
         }
-    if (!toggledUnlockedSW7 && !toggledUnlockedSW6) {
+    if (SWITCH_7 == 0 && SWITCH_6 == 0) {
         for (int z=8;z>-1;z--) {
             LATA <<= 1; //1 LED at a time
             delay_ms(100);
